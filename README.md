@@ -4,26 +4,30 @@
 ## requirements
 
 - **linux-based operating system**
-- **python 3.6+**
-- **psutil**
-- **utf-8 terminal**
+- **g++ with c++17 support**
+- **utf-8 terminal** (with nerd font / unicode support for the logo)
 - **git**
+
+runtime dependencies (the program shells out to these tools):
+
+| package | provides |
+|---|---|
+| `procps` / `procps-ng` | `free`, `ps`, `uptime` |
+| `util-linux` | `lscpu` |
+| `pciutils` | `lspci` |
+| `coreutils` | `df`, `uname` |
 
 runtime data sources:
 
 | field | source |
 |---|---|
-| user | `getpass.getuser()` |
-| hostname | `platform.node()` |
-| kernel | `platform.release()` |
-| cpu | `platform.processor()` |
-| ram | `psutil.virtual_memory()` |
-| disk | `shutil.disk_usage("/")` |
-| processes | `len(psutil.pids())` |
-| shell | `$SHELL` |
-| arch | `platform.machine()` |
-| ip | UDP socket to `8.8.8.8:80` |
-| date | `datetime.now()` |
+| user | `$USER` |
+| hostname | `gethostname()` |
+| os | `PRETTY_NAME` from `/etc/os-release` |
+| kernel | `uname -r` |
+| uptime | `uptime -p` |
+| ram | `free -h` |
+| disk | `df -h /` |
 
 ## installation
 
@@ -34,34 +38,36 @@ git clone https://github.com/Efesint/chudfetch.git
 cd chudfetch
 ```
 
-### 2. install psutil
+### 2. install runtime dependencies
 
 ```bash
-# debian
-sudo apt install python3-psutil
+# debian / ubuntu
+sudo apt install g++ procps util-linux pciutils
 
 # arch / manjaro
-sudo pacman -S python-psutil
+sudo pacman -S gcc procps-ng util-linux pciutils
 ```
 
-or with pip:
+### 3. build
 
 ```bash
-python3 -m pip install --user psutil
+g++ -std=c++17 -O2 src/chudfetch.cpp -o chudfetch
 ```
 
-### 3. install the script into `~/.local/bin`
+### 4. install into `~/.local/bin`
 
 ```bash
 mkdir -p ~/.local/bin
-install -m 755 src/chudfetch.py ~/.local/bin/chudfetch
+install -m 755 chudfetch ~/.local/bin/chudfetch
 ```
 
-### 4. run it
+### 5. run it
 
 ```bash
 chudfetch
 ```
+
+> make sure `~/.local/bin` is in your `PATH`.
 
 # DISCLAIMER / TERMS OF USE
 
