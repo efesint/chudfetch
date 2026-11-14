@@ -69,6 +69,13 @@ chudfetch
 
 > make sure `~/.local/bin` is in your `PATH`.
 
+# ...
+| - | art |
+|---|---|
+| `-t` / `--tux`| `tux ascii art` |
+| `-n` / `--noart` | `system info without art` |
+| `-d` / `--down` | `system info under ascii art` |
+
 # DISCLAIMER / TERMS OF USE
 
 **Please read this section in full before using, running, building, copying, forking, or otherwise interacting with this project in any way.**
